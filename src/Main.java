@@ -6,7 +6,7 @@ public class Main {
     public static void main(String args[])
     {
 
-        CSVFileReader csv = new CSVFileReader("D:\\work\\TOC\\dijkstra\\test.csv");
+        CSVFileReader csv = new CSVFileReader("test.csv");
         String[][] table = csv.getFileValue();
 
         for(int i=0;i<table.length;i++)
@@ -17,5 +17,7 @@ public class Main {
             }
             System.out.println();
         }
+
+        
     }
 }
