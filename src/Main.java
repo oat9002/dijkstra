@@ -91,8 +91,9 @@ public class Main {
         while(vertexList[currentVertexIndex].path!='-')
         {
             System.out.print(vertexList[currentVertexIndex].name + " < ");
-            currentVertexIndex = vertexList[currentVertexIndex].path;
+            currentVertexIndex = getIndexOfVertexWithName(vertexList[currentVertexIndex].path);
         }
+        System.out.print(startVertex);
     }
 
 
