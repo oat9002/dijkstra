@@ -11,7 +11,7 @@ public class Vertex {
     public Vertex(char name)
     {
         this.name = name;
-        distance = -1;
+        distance = 99999;
         known = false;
         path = '-';
     }

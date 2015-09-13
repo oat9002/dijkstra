@@ -14,6 +14,15 @@ public class Adjacency {
         }
     }
 
+    public Adjacency(int size,int[] w) {
+        weight = new int[size];
+        adjVer = new char[size];
+        for(int i=0;i < size;i++) {
+            weight[i] = w[i];
+            adjVer[i] = ' ';
+        }
+    }
+
     public void setTableValue(int x,int value,char name)
     {
         weight[x] = value;
