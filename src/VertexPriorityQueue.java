@@ -4,19 +4,34 @@ import java.util.Comparator;
  * Created by lenovo on 14/9/2558.
  */
 public class VertexPriorityQueue extends PriorityQueue<Vertex>{
-    public PriorityQueue<Vertex> queue;
+    static Comparator<Vertex> comparator = new VertexWeightComparator();
     public VertexPriorityQueue()
     {
-        Comparator<Vertex> comparator = new VertexWeightComparator();
-        queue = new PriorityQueue<Vertex>(20,comparator);
+        super(20,comparator);
     }
 
     @Override
     public boolean add(Vertex vertex) {
-        if(!queue.contains(vertex)) {
+        if(!this.contains(vertex)) {
             return super.add(vertex);
         }
         return false;
+    }
+
+    public void updateQueue()
+    {
+        /*when object change value queue do not auto update so just
+        dequeue all then enqueue all*/
+        int queueSize = this.size();
+        Vertex[] queueTemp = new Vertex[queueSize];
+        for(int i=0;i<queueSize;i++)
+        {
+            queueTemp[i] = this.remove();
+        }
+        for(int i=0;i<queueSize;i++)
+        {
+            this.add(queueTemp[i]);
+        }
     }
 }
 

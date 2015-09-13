@@ -39,11 +39,11 @@ public class Main {
         }
 
         //init adjacency
-        for(int i=1;i<table.length;i++)
+        for(int i=0;i<table.length-1;i++)
         {
             for(int j=0;j<table[i].length;j++)
             {
-                adjacency.setWeight(i,j,Integer.parseInt(table[i][j]));
+                adjacency.setWeight(i,j,Integer.parseInt(table[i+1][j]));
             }
         }
 
@@ -53,21 +53,45 @@ public class Main {
         System.out.print("Enter End node name : ");
         endVertex = sc.next().charAt(0);
 
+        //init first vertex
+        vertexList[getIndexOfVertexWithName(startVertex)].distance = 0;
         //add first node to queue
-        vertexPriorityQueue.queue.add(vertexList[getIndexOfVertexWithName(startVertex)]);
-        while(!vertexPriorityQueue.queue.isEmpty())
+        vertexPriorityQueue.add(vertexList[getIndexOfVertexWithName(startVertex)]);
+
+        while(!vertexPriorityQueue.isEmpty())
         {
             //dequeue node
-            currentVertexIndex = getIndexOfVertexWithName(vertexPriorityQueue.queue.remove().name);
+            vertexPriorityQueue.updateQueue();
+            currentVertexIndex = getIndexOfVertexWithName(vertexPriorityQueue.remove().name);
 
             for(int i=0;i<vertexList.length;i++)
             {
-                if(adjacency.getWeight(currentVertexIndex,i)!=0)
+                if(adjacency.getWeight(currentVertexIndex,i)!=0&&vertexList[i].known==false)
                 {
-                    //somecode here
+                    if(vertexList[i].distance==-1)
+                    {
+                        //distance is infinite >>> change distance to current path distance + path weight
+                        vertexList[i].distance = vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i);
+                        vertexList[i].path = vertexList[currentVertexIndex].name;
+                    }
+                    else if(vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i)<vertexList[currentVertexIndex].distance)
+                    {
+                        //new path distance < current path distance >>> change distance
+                        vertexList[i].distance = vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i);
+                        vertexList[i].path = vertexList[currentVertexIndex].name;
+                    }
+                    vertexPriorityQueue.add(vertexList[i]);
                 }
             }
+            vertexList[currentVertexIndex].known = true;
+        }
 
+        //reuse variable for printing shortest path
+        currentVertexIndex = getIndexOfVertexWithName(endVertex);
+        while(vertexList[currentVertexIndex].path!='-')
+        {
+            System.out.print(vertexList[currentVertexIndex].name + " < ");
+            currentVertexIndex = vertexList[currentVertexIndex].path;
         }
     }
 
@@ -84,4 +108,32 @@ public class Main {
         }
         return -1;
     }
+
+    public static int vertexDistanceCompare(Vertex o1,Vertex o2)
+    {
+        if(o1.distance == o2.distance)
+        {
+            return 0;
+        }
+        if(o1.distance == -1)
+        {
+            //infinite dist.
+            return -1;
+        }
+        if(o2.distance == -1)
+        {
+            //infinite dist.
+            return 1;
+        }
+        if(o1.distance<o2.distance)
+        {
+            return -1;
+        }
+        if(o1.distance>o2.distance)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
 }

@@ -1,8 +1,10 @@
+import java.util.Comparator;
+
 /**
  * Created by oat90 on 9/9/2558.
  */
 
-public class Vertex {
+public class Vertex{
     char name;
     int distance;
     boolean known;
