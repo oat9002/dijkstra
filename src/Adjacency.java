@@ -2,21 +2,22 @@
  * Created by oat90 on 9/9/2558.
  */
 public class Adjacency {
-    private static final int SIZE = 20;
-    int[][] table;
-    public Adjacency()
+    int[] weight;
+    char[] adjVer;
+    public Adjacency(int size)
     {
-        table = new int[SIZE][SIZE];
-        for(int i=0;i<SIZE;i++) {
-            for(int j=0;j<SIZE;j++) {
-                table[i][j] = -1;
-            }
+        weight = new int[size];
+        adjVer = new char[size];
+        for(int i=0;i < size;i++) {
+            weight[i] = -1;
+            adjVer[i] = ' ';
         }
     }
 
-    public void setTableValue(int x,int y,int value)
+    public void setTableValue(int x,int value,char name)
     {
-        table[x][y] = value;
+        weight[x] = value;
+        adjVer[x] = name;
     }
 
 

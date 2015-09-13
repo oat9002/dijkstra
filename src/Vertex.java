@@ -15,4 +15,19 @@ public class Vertex {
         known = false;
         path = '-';
     }
+
+    public void setDistance(int dist)
+    {
+        distance = dist;
+    }
+
+    public void setKnown(boolean known)
+    {
+        this.known = known;
+    }
+
+    public void setPath(char path)
+    {
+        this.path = path;
+    }
 }
