@@ -39,9 +39,18 @@ public class Main {
             }
             System.out.println();
         }
-        System.out.println("\nHere we go!");       System.out.println("\nHere we go!");
+        char[] travel;
         shortestPath(graph, 'a');
+        System.out.println("\nHere we go!");
         printGraph(graph);
+        System.out.println("\nPath");
+        travel = journey(graph,'a','z');
+        for(int i =  travel.length - 1;i >= 0;i--) {
+            if(travel[i] != ' ') {
+                System.out.print(travel[i] + " ");
+            }
+        }
+        System.out.println();
     }
 
     public static void  printGraph(Graph g)
@@ -51,12 +60,29 @@ public class Main {
         }
     }
 
+    public static char[] journey(Graph g,char start,char end)
+    {
+        char[] travel = new char[g.returnSize()];
+        for(int i = 0;i < travel.length;i++) {
+            travel[i] = ' ';
+        }
+        int index = 0;
+        while(start != end) {
+            for (int i = 0; i < g.returnSize(); i++) {
+                if(g.vertex[i].name == end) {
+                    travel[index++] = g.vertex[i].name;
+                    end = g.vertex[i].path;
+                }
+            }
+        }
+        travel[index++] = start;
+        return travel;
+    }
+
     public static void shortestPath(Graph g,char start)
     {
         int vs = 0;
-        int vs_temp = 0;
         int countVT = 0;
-        boolean first = true;
         for(int i = 0;i < g.returnSize();i++) {
             if(g.vertex[i].name == start) {
                 vs = i;
@@ -73,11 +99,12 @@ public class Main {
                     }
                 }
             }
+            g.vertex[vs].known = true;
             int min = 0;
             boolean first_min = true;
-            while(true) {
-                for (int i = 0; i < g.returnSize(); i++) {
-                    if (g.adj[vs].weight[i] != 0) {
+            for (int i = 0; i < g.returnSize(); i++) {
+                if (g.adj[vs].weight[i] != 0) {
+                    if(!g.vertex[i].known) {
                         if (first_min) {
                             min = g.adj[vs].weight[i];
                             first_min = false;
@@ -88,32 +115,15 @@ public class Main {
                         }
                     }
                 }
-                if(vs_temp != min) {
+            }
+            for (int i = 0; i < g.returnSize(); i++) {
+                if (g.adj[vs].weight[i] == min) {
+                    vs = i;
                     break;
                 }
             }
-            if(!first) {
-                for (int i = 0; i < g.returnSize(); i++) {
-                    if (g.adj[vs].weight[i] == min) {
-                        vs_temp = vs;
-                        vs = i;
-                        break;
-                    }
-                }
-            }
-            else {
-                for (int i = 0; i < g.returnSize(); i++) {
-                    if (g.adj[vs].weight[i] == min) {
-                        vs = i;
-                        break;
-                    }
-                }
-            }
-            System.out.println("count : " + countVT);
-            printGraph(g);
-            if(first) {
-                first = false;
-            }
+           // System.out.println("count : " + countVT);
+           // printGraph(g);
             countVT++;
         }
     }
