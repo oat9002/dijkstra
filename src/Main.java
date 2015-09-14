@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Created by oat90 on 9/9/2558.
  */
@@ -39,12 +41,19 @@ public class Main {
             }
             System.out.println();
         }
+        Scanner input = new Scanner(System.in);
+        char start,end;
+        System.out.print("Enter start node : ");
+        start = input.next().charAt(0);
+        System.out.print("Enter end node : ");
+        end = input.next().charAt(0);
+        input.close();
         char[] travel;
-        shortestPath(graph, 'a');
+        shortestPath(graph, start);
         System.out.println("\nHere we go!");
         printGraph(graph);
         System.out.println("\nPath");
-        travel = journey(graph,'a','z');
+        travel = journey(graph,start,end);
         for(int i =  travel.length - 1;i >= 0;i--) {
             if(travel[i] != ' ') {
                 System.out.print(travel[i] + " ");
@@ -69,6 +78,9 @@ public class Main {
         int index = 0;
         while(start != end) {
             for (int i = 0; i < g.returnSize(); i++) {
+                if(start == end) {
+                    break;
+                }
                 if(g.vertex[i].name == end) {
                     travel[index++] = g.vertex[i].name;
                     end = g.vertex[i].path;
