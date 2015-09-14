@@ -29,7 +29,7 @@ public class Main {
         }
         System.out.println();
 
-        vertexList = new Vertex[table.length];
+        vertexList = new Vertex[table[0].length];
         adjacency = new Adjacency(table.length);
 
         //init vertex
@@ -57,9 +57,11 @@ public class Main {
         vertexList[getIndexOfVertexWithName(startVertex)].distance = 0;
         //add first node to queue
         vertexPriorityQueue.add(vertexList[getIndexOfVertexWithName(startVertex)]);
+        printVertex();
 
         while(!vertexPriorityQueue.isEmpty())
         {
+
             //dequeue node
             vertexPriorityQueue.updateQueue();
             currentVertexIndex = getIndexOfVertexWithName(vertexPriorityQueue.remove().name);
@@ -74,7 +76,7 @@ public class Main {
                         vertexList[i].distance = vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i);
                         vertexList[i].path = vertexList[currentVertexIndex].name;
                     }
-                    else if(vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i)<vertexList[currentVertexIndex].distance)
+                    else if(vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i)<vertexList[i].distance)
                     {
                         //new path distance < current path distance >>> change distance
                         vertexList[i].distance = vertexList[currentVertexIndex].distance+adjacency.getWeight(currentVertexIndex,i);
@@ -84,6 +86,7 @@ public class Main {
                 }
             }
             vertexList[currentVertexIndex].known = true;
+            printVertex();
         }
 
         //reuse variable for printing shortest path
@@ -137,4 +140,29 @@ public class Main {
         return 0;
     }
 
+    public static void printVertex()
+    {
+        for(int i=0;i<vertexList.length;i++)
+        {
+            System.out.printf("Name : %c Distance : ",vertexList[i].name);
+            if(vertexList[i].distance==-1)
+            {
+                System.out.print(" -");
+            }
+            else
+            {
+                System.out.printf("%2d",vertexList[i].distance);
+            }
+            System.out.printf(" Path : %c ", vertexList[i].path);
+            if(vertexList[i].known)
+            {
+                System.out.println("     Known");
+            }
+            else
+            {
+                System.out.println("     Not known");
+            }
+        }
+        System.out.println("\n--------------------------------------------");
+    }
 }
