@@ -2,22 +2,30 @@
  * Created by oat90 on 9/9/2558.
  */
 public class Adjacency {
-    private static final int SIZE = 20;
-    int[][] table;
-    public Adjacency()
+    private static final int MAXSIZE = 20;
+    private int size = 0;
+    private int[][] weightTable;
+    public Adjacency(int size)
     {
-        table = new int[SIZE][SIZE];
-        for(int i=0;i<SIZE;i++) {
-            for(int j=0;j<SIZE;j++) {
-                table[i][j] = -1;
+        weightTable = new int[MAXSIZE][MAXSIZE];
+        for(int i=0;i< MAXSIZE;i++) {
+            for(int j=0;j< MAXSIZE;j++) {
+                weightTable[i][j] = 0;
             }
         }
+        this.size = size;
     }
 
-    public void setTableValue(int x,int y,int value)
+    public void setWeight(int x,int y,int weight)
     {
-        table[x][y] = value;
+        weightTable[x][y] = weight;
     }
-
-
+    public int getSize()
+    {
+        return size;
+    }
+    public int getWeight(int x,int y)
+    {
+        return weightTable[x][y];
+    }
 }
